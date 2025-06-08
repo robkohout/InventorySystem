@@ -23,13 +23,7 @@ public class InventorySystem : ModuleRules
 		PrivateDependencyModuleNames.AddRange(new string[] { });
 
 		PublicIncludePaths.AddRange(new string[] {
-			"InventorySystem",
-			"InventorySystem/Variant_Platforming",
-			"InventorySystem/Variant_Combat",
-			"InventorySystem/Variant_Combat/AI",
-			"InventorySystem/Variant_SideScrolling",
-			"InventorySystem/Variant_SideScrolling/Gameplay",
-			"InventorySystem/Variant_SideScrolling/AI"
+			"InventorySystem"
 		});
 
 		// Uncomment if you are using Slate UI
