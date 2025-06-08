@@ -11,6 +11,18 @@ UInv_InventoryComponent::UInv_InventoryComponent()
 
 }
 
+void UInv_InventoryComponent::ToggleInventoryMenu()
+{
+	if (bInventoryMenuOpen)
+	{
+		CloseInventoryMenu();
+	}
+	else
+	{
+		OpenInventoryMenu();
+	}
+}
+
 void UInv_InventoryComponent::BeginPlay()
 {
 	Super::BeginPlay();
@@ -26,4 +38,33 @@ void UInv_InventoryComponent::ConstructInventory()
 
 	InventoryMenu = CreateWidget<UInv_InventoryBase>(OwningController.Get(), InventoryMenuClass);
 	InventoryMenu->AddToViewport();
+	CloseInventoryMenu();
+}
+
+void UInv_InventoryComponent::OpenInventoryMenu()
+{
+	if (!IsValid(InventoryMenu)) return;
+
+	InventoryMenu->SetVisibility(ESlateVisibility::Visible);
+	bInventoryMenuOpen = true;
+
+	if (!OwningController.IsValid()) return;
+
+	FInputModeGameAndUI InputMode;
+	OwningController->SetInputMode(InputMode);
+	OwningController->SetShowMouseCursor(true);
+}
+
+void UInv_InventoryComponent::CloseInventoryMenu()
+{
+	if (!IsValid(InventoryMenu)) return;
+
+	InventoryMenu->SetVisibility(ESlateVisibility::Collapsed);
+	bInventoryMenuOpen = false;
+
+	if (!OwningController.IsValid()) return;
+
+	FInputModeGameOnly InputMode;
+	OwningController->SetInputMode(InputMode);
+	OwningController->SetShowMouseCursor(false);
 }
