@@ -7,6 +7,7 @@
 #include "Types/Inv_GridTypes.h"
 #include "Inv_InventoryGrid.generated.h"
 
+class UInv_InventoryComponent;
 class UCanvasPanel;
 class UInv_GridSlot;
 
@@ -21,8 +22,14 @@ class INVENTORY_API UInv_InventoryGrid : public UUserWidget
 public:
 	virtual void NativeOnInitialized() override;
 	EInv_ItemCategory GetInv_ItemCategory() const { return ItemCategory; }
+
+	UFUNCTION()
+	void AddItem(UInv_InventoryItem* Item);
 	
 private:
+	
+	TWeakObjectPtr<UInv_InventoryComponent> InventoryComponent;
+	
 	void ConstructGrid();
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Inventory")
@@ -43,4 +50,6 @@ private:
 	int32 Columns;
 	UPROPERTY(EditAnywhere, Category = "Inventory")
 	float TileSize;
+
+	bool MatchesCategory(const UInv_InventoryItem* Item) const;
 };
