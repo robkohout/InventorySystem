@@ -27,6 +27,24 @@ private:
 };
 
 USTRUCT(BlueprintType)
+struct FInv_GridFragment : public FInv_ItemFragment
+{
+	GENERATED_BODY()
+
+	FIntPoint GetGridSize() const { return GridSize; }
+	void SetGridSize(const FIntPoint& Size) { GridSize = Size; }
+	float GetGridPadding() const { return GridPadding; }
+	void SetGridPadding(float Padding) { GridPadding = Padding; }
+	
+private:
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	FIntPoint GridSize{1,1};
+
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	float GridPadding{0.0f};
+};
+
+USTRUCT(BlueprintType)
 struct FInv_ImageFragment : public FInv_ItemFragment
 {
 	GENERATED_BODY()

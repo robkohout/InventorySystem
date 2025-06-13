@@ -7,7 +7,6 @@
 #include "StructUtils/InstancedStruct.h"
 #include "GameplayTagContainer.h"
 #include "Items/Fragments/Inv_ItemFragment.h"
-#include "Types/AttributeStorage.h"
 #include "Inv_ItemManifest.generated.h"
 
 /*
@@ -27,6 +26,9 @@ public:
 	UInv_InventoryItem* Manifest(UObject* NewOuter);
 	EInv_ItemCategory GetItemCategory() const { return ItemCategory; }
 	FGameplayTag GetItemType() const { return ItemType; }
+
+	template<typename T> requires std::derived_from<T, FInv_ItemFragment>
+	const T* GetFragmentOfTypeWithTag(const FGameplayTag& FragmentTag) const;
 	
 private:
 	UPROPERTY(EditAnywhere, Category = "Inventory", meta = (ExcludeBaseStruct))
@@ -39,20 +41,17 @@ private:
 	FGameplayTag ItemType;
 };
 
-USTRUCT(BlueprintType)
-struct FInv_GridFragment : public FInv_ItemFragment
+template <typename T>
+requires std::derived_from<T, FInv_ItemFragment>
+const T* FInv_ItemManifest::GetFragmentOfTypeWithTag(const FGameplayTag& FragmentTag) const
 {
-	GENERATED_BODY()
-
-	FIntPoint GetGridSize() const { return GridSize; }
-	void SetGridSize(const FIntPoint& Size) { GridSize = Size; }
-	float GetGridPadding() const { return GridPadding; }
-	void SetGridPadding(float Padding) { GridPadding = Padding; }
-	
-private:
-	UPROPERTY(EditAnywhere, Category = "Inventory")
-	FIntPoint GridSize{1,1};
-
-	UPROPERTY(EditAnywhere, Category = "Inventory")
-	float GridPadding{0.0f};
-};
+	for (const TInstancedStruct<FInv_ItemFragment>& Fragment : Fragments)
+	{
+		if (const T* FragmentPtr = Fragment.GetPtr<T>())
+		{
+			if (!FragmentPtr->GetFragmentTag().MatchesTag(FragmentTag)) continue;
+			return FragmentPtr;
+		}
+	}
+	return nullptr;
+}
