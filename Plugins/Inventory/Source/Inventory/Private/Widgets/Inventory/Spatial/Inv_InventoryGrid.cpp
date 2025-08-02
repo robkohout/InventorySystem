@@ -539,8 +539,9 @@ void UInv_InventoryGrid::OnSlottedItemClicked(int32 GridIndex, const FPointerEve
 		// Should we swap their stack counts? (Room in the clicked slot == 0 && HoveredStackCount < MaxStackSize)
 		if (ShouldSwapStackCounts(RoomInClickedSlot, HoveredStackCount, MaxStackSize))
 		{
-			// TODO: Swap Stack Counts
+			SwapStackCounts(ClickedStackCount, HoveredStackCount, GridIndex);
 		}
+		
 		// Should we consume the hover item's stacks?
 		// Should we fill in the stacks of the clicked item? (and not consume the hover item)
 		// Is there no room in the clicked slot?
@@ -762,6 +763,17 @@ void UInv_InventoryGrid::SwapWithHoverItem(UInv_InventoryItem* ClickedInventoryI
 bool UInv_InventoryGrid::ShouldSwapStackCounts(const int32 RoomInClickedSlot, const int32 HoveredStackCount, const int32 MaxStackSize) const
 {
 	return RoomInClickedSlot == 0 && HoveredStackCount < MaxStackSize;
+}
+
+void UInv_InventoryGrid::SwapStackCounts(const int32 ClickedStackCount, const int32 HoveredStackCount, const int32 Index)
+{
+	UInv_GridSlot* GridSlot = GridSlots[Index];
+	GridSlot->SetStackCount(HoveredStackCount);
+	
+	UInv_SlottedItem* ClickedSlottedItem = SlottedItems.FindChecked(Index);
+	ClickedSlottedItem->UpdateStackCount(HoveredStackCount);
+
+	HoverItem->UpdateStackCount(ClickedStackCount);
 }
 
 void UInv_InventoryGrid::ShowCursor()
