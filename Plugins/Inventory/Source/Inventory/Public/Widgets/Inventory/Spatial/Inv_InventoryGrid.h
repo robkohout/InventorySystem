@@ -174,6 +174,9 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Inventory")
 	TSubclassOf<UInv_HoverItem> HoverItemClass;
 
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	FVector2D ItemPopUpOffest;
+	
 	UPROPERTY()
 	TObjectPtr<UInv_HoverItem> HoverItem;
 	
