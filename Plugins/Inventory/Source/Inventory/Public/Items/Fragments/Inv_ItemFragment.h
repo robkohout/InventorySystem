@@ -22,7 +22,7 @@ struct FInv_ItemFragment
 	void SetFragmentTag(FGameplayTag Tag) { FragmentTag = Tag; }
 	
 private:
-	UPROPERTY(EditAnywhere, Category = "Inventory")
+	UPROPERTY(EditAnywhere, Category = "Inventory", meta=(Categories="FragmentTags"))
 	FGameplayTag FragmentTag = FGameplayTag::EmptyTag;
 };
 
@@ -74,4 +74,34 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Inventory")
 	int32 StackCount{1};
+};
+
+USTRUCT(BlueprintType)
+struct FInv_ConsumableFragment : public FInv_ItemFragment
+{
+	GENERATED_BODY()
+
+	virtual void OnConsume(APlayerController* PlayerController) {}
+};
+
+USTRUCT(BlueprintType)
+struct FInv_HealthPotionFragment : public FInv_ConsumableFragment
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	float HealAmount{20.0f};
+	
+	virtual void OnConsume(APlayerController* PlayerController) override;
+};
+
+USTRUCT(BlueprintType)
+struct FInv_ManaPotionFragment : public FInv_ConsumableFragment
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	float ManaAmount{20.0f};
+	
+	virtual void OnConsume(APlayerController* PlayerController) override;
 };
