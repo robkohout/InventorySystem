@@ -25,8 +25,12 @@ void UInv_SpatialInventory::NativeOnInitialized()
 
 FReply UInv_SpatialInventory::NativeOnMouseButtonDown(const FGeometry& Geometry, const FPointerEvent& MouseEvent)
 {
-	ActiveGrid->DropItem();
-	return FReply::Handled();
+	if (MouseEvent.GetEffectingButton() == EKeys::LeftMouseButton)
+	{
+		ActiveGrid->DropItem();
+		return FReply::Handled();
+	}
+	return Super::NativeOnMouseButtonDown(Geometry, MouseEvent);
 }
 
 FInv_SlotAvailabilityResult UInv_SpatialInventory::HasRoomForItem(UInv_ItemComponent* ItemComponent) const
@@ -43,6 +47,24 @@ FInv_SlotAvailabilityResult UInv_SpatialInventory::HasRoomForItem(UInv_ItemCompo
 			UE_LOG(LogInventory, Error, TEXT("ItemComponent doesn't have a valid Item Category."));
 			return FInv_SlotAvailabilityResult();
 	}
+}
+
+void UInv_SpatialInventory::OnItemHovered(UInv_InventoryItem* Item)
+{
+	Super::OnItemHovered(Item);
+}
+
+void UInv_SpatialInventory::OnItemUnhovered()
+{
+	Super::OnItemUnhovered();
+}
+
+bool UInv_SpatialInventory::HasHoverItem() const
+{
+	if (Grid_Equippables->HasHoverItem()) return true;
+	if (Grid_Consumables->HasHoverItem()) return true;
+	if (Grid_Craftables->HasHoverItem()) return true;
+	return false;
 }
 
 void UInv_SpatialInventory::ShowEquippables()
