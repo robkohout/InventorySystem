@@ -10,7 +10,7 @@
 #include "Inv_ItemManifest.generated.h"
 
 /*
- * The Item Manifest contains all of the necessary data
+ * The Item Manifest contains all the necessary data
  * for creating a new Inventory Item
  */
 

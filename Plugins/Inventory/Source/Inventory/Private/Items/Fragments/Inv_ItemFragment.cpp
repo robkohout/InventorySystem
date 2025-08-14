@@ -8,6 +8,7 @@
 
 void FInv_InventoryItemFragment::Assimilate(UInv_CompositeBase* Composite) const
 {
+	if (!MatchesWidgetTag(Composite)) return;
 	Composite->Expand();
 }
 
@@ -68,6 +69,35 @@ void FInv_LabeledNumberFragment::Manifest()
 	bRandomizeOnManifest = false;
 }
 
+void FInv_ConsumableFragment::OnConsume(APlayerController* PlayerController)
+{
+	for (auto& Modifier : ConsumeModifiers)
+	{
+		auto& ModRef = Modifier.GetMutable();
+		ModRef.OnConsume(PlayerController);
+	}
+}
+
+void FInv_ConsumableFragment::Assimilate(UInv_CompositeBase* Composite) const
+{
+	FInv_InventoryItemFragment::Assimilate(Composite);
+	for (const auto& Modifier : ConsumeModifiers)
+	{
+		const auto& ModRef = Modifier.Get();
+		ModRef.Assimilate(Composite);
+	}
+}
+
+void FInv_ConsumableFragment::Manifest()
+{
+	FInv_InventoryItemFragment::Manifest();
+	for (auto& Modifier : ConsumeModifiers)
+	{
+		auto& ModRef = Modifier.GetMutable();
+		ModRef.Manifest();
+	}
+}
+
 void FInv_HealthPotionFragment::OnConsume(APlayerController* PlayerController)
 {
 	// Get a stats component from the PC or the PC->GetPawn()
@@ -75,12 +105,12 @@ void FInv_HealthPotionFragment::OnConsume(APlayerController* PlayerController)
 	// or call an interface function for Healing()
 
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green,
-		FString::Printf(TEXT("Health Potion consumed! Healing by: %f"), HealAmount));
+		FString::Printf(TEXT("Health Potion consumed! Healing by: %f"), GetValue()));
 }
 
 void FInv_ManaPotionFragment::OnConsume(APlayerController* PlayerController)
 {
 	// Replenish mana
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue,
-		FString::Printf(TEXT("Mana Potion consumed! Mana replenished by: %f"), ManaAmount));
+		FString::Printf(TEXT("Mana Potion consumed! Mana replenished by: %f"), GetValue()));
 }
