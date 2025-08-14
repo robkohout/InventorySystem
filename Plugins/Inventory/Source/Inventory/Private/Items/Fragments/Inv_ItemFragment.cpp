@@ -64,7 +64,7 @@ void FInv_LabeledNumberFragment::Manifest()
 
 	if (bRandomizeOnManifest)
 	{
-		Value = FMath::RandRange(Min, Max);
+		Value = FMath::FRandRange(Min, Max);
 	}
 	bRandomizeOnManifest = false;
 }
