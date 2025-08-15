@@ -27,4 +27,7 @@ public:
 private:
 	UPROPERTY(EditAnywhere, Category = "Inventory", meta = (Categories = "GameItems.Equipment"))
 	FGameplayTag EquipmentTypeTag;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UImage> Image_GrayedOutIcon;
 };
