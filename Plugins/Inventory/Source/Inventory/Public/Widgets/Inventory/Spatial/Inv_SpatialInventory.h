@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
 #include "Widgets/Inventory/InventoryBase/Inv_InventoryBase.h"
 #include "Inv_SpatialInventory.generated.h"
 
@@ -89,6 +90,7 @@ private:
 	void DisableButton(UButton* Button);
 	void SetActiveGrid(UInv_InventoryGrid* Grid, UButton* Button);
 	void SetItemDescriptionSizeAndPosition(UInv_ItemDescription* Description, UCanvasPanel* Canvas) const;
-
+	bool CanEquipHoverItem(UInv_EquippedGridSlot* EquippedGridSlot, const FGameplayTag& EquipmentTypeTag) const;
+	
 	TWeakObjectPtr<UInv_InventoryGrid> ActiveGrid;
 };
