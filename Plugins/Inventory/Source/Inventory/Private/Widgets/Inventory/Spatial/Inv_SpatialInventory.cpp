@@ -89,10 +89,14 @@ void UInv_SpatialInventory::EquippedSlottedItemClicked(UInv_EquippedSlottedItem*
 	UInv_EquippedGridSlot* EquippedGridSlot = FindSlotWithEquippedItem(ItemToUnequip);
 	
 	// Clear the equipped grid slot of this item (set its inventory item to nullptr)
+	ClearSlotOfItem(EquippedGridSlot);
+
+	// Assign the previously equipped item as the hover item
+	Grid_Equippables->AssignHoverItem(ItemToUnequip);
+	
 	// Remove the Equipped Slotted Item from the equipped grid slot
-		// (unbind from OnEquippedSlottedItemClicked)
-		// Remove the Equipped Slotted Item from Parent
-		// Assign previously equipped item as the hover item
+	RemoveEquippedSlottedItem(SlottedItem);
+	
 	// Make a new Equipped Slotted Item (for the item we held in HoverItem)
 	// Broadcast delegates for OnItemEquipped / OnItemUnequipped (from the IC)
 }
@@ -153,6 +157,26 @@ UInv_EquippedGridSlot* UInv_SpatialInventory::FindSlotWithEquippedItem(UInv_Inve
 		return GridSlot->GetInventoryItem() == EquippedItem;
 	});
 	return FoundEquippedGridSlot ? *FoundEquippedGridSlot : nullptr;
+}
+
+void UInv_SpatialInventory::ClearSlotOfItem(UInv_EquippedGridSlot* EquippedGridSlot)
+{
+	if (IsValid(EquippedGridSlot))
+	{
+		EquippedGridSlot->SetEquippedSlottedItem(nullptr);
+		EquippedGridSlot->SetInventoryItem(nullptr);
+	}
+}
+
+void UInv_SpatialInventory::RemoveEquippedSlottedItem(UInv_EquippedSlottedItem* EquippedSlottedItem)
+{
+	if (!IsValid(EquippedSlottedItem)) return;
+
+	if (EquippedSlottedItem->OnEquippedSlottedItemClicked.IsAlreadyBound(this, &ThisClass::EquippedSlottedItemClicked))
+	{
+		EquippedSlottedItem->OnEquippedSlottedItemClicked.RemoveDynamic(this, &ThisClass::EquippedSlottedItemClicked);
+	}
+	EquippedSlottedItem->RemoveFromParent();
 }
 
 FInv_SlotAvailabilityResult UInv_SpatialInventory::HasRoomForItem(UInv_ItemComponent* ItemComponent) const
