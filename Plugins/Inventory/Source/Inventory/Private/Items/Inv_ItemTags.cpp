@@ -11,16 +11,29 @@ namespace GameItems
 		{
 			UE_DEFINE_GAMEPLAY_TAG_COMMENT(Axe, "GameItems.Equipment.Weapons.Axe", "Axe")
 			UE_DEFINE_GAMEPLAY_TAG_COMMENT(Sword, "GameItems.Equipment.Weapons.Sword", "Sword")
+			UE_DEFINE_GAMEPLAY_TAG_COMMENT(Knife, "GameItems.Equipment.Weapons.Knife", "Knife")
+			UE_DEFINE_GAMEPLAY_TAG_COMMENT(Bloodthorn, "GameItems.Equipment.Weapons.Bloodthorn", "Bloodthorn")
+			UE_DEFINE_GAMEPLAY_TAG_COMMENT(NightsEdge, "GameItems.Equipment.Weapons.NightsEdge", "NightsEdge")
+			UE_DEFINE_GAMEPLAY_TAG_COMMENT(Shadowbane, "GameItems.Equipment.Weapons.Shadowbane", "Shadowbane")
+			UE_DEFINE_GAMEPLAY_TAG_COMMENT(Staff, "GameItems.Equipment.Weapons.Staff", "Staff")
 		}
 
 		namespace Cloaks
 		{
 			UE_DEFINE_GAMEPLAY_TAG_COMMENT(RedCloak, "GameItems.Equipment.Cloaks.RedCloak", "RedCloak")
+			UE_DEFINE_GAMEPLAY_TAG_COMMENT(BlueCloak, "GameItems.Equipment.Cloaks.BlueCloak", "BlueCloak")
+			UE_DEFINE_GAMEPLAY_TAG_COMMENT(GreenCloak, "GameItems.Equipment.Cloaks.GreenCloak", "GreenCloak")
+			UE_DEFINE_GAMEPLAY_TAG_COMMENT(YellowCloak, "GameItems.Equipment.Cloaks.YellowCloak", "YellowCloak")
+			UE_DEFINE_GAMEPLAY_TAG_COMMENT(DarkGrayCloak, "GameItems.Equipment.Cloaks.DarkGrayCloak", "DarkGrayCloak")
 		}
 
 		namespace Masks
 		{
-			UE_DEFINE_GAMEPLAY_TAG_COMMENT(SteelMask, "GameItems.Equipment.Masks.SteelMask", "SteelMask")
+			UE_DEFINE_GAMEPLAY_TAG_COMMENT(RedMask, "GameItems.Equipment.Masks.RedMask", "RedMask")
+			UE_DEFINE_GAMEPLAY_TAG_COMMENT(GreenMask, "GameItems.Equipment.Masks.GreenMask", "GreenMask")
+			UE_DEFINE_GAMEPLAY_TAG_COMMENT(BlueMask, "GameItems.Equipment.Masks.BlueMask", "BlueMask")
+			UE_DEFINE_GAMEPLAY_TAG_COMMENT(YellowMask, "GameItems.Equipment.Masks.YellowMask", "YellowMask")
+			UE_DEFINE_GAMEPLAY_TAG_COMMENT(GrayMask, "GameItems.Equipment.Masks.GrayMask", "GrayMask")
 		}
 	}
 
